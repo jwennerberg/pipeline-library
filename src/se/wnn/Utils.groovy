@@ -13,4 +13,12 @@ def getNpmPackageVersion(){
   return pkg.version
 }
 
+def sonarQualityGateStatus(serverUrl, authString='foo'){
+  URLConnection projectStatus = new URL("${serverUrl}").openConnection();
+  projectStatus.setRequestProperty("Authorization", "Basic ${authString}");
+
+  def status = new JsonSlurper().parse(new BufferedReader(new InputStreamReader(projectStatus.getInputStream())));
+  return status.value
+}
+
 return this;
