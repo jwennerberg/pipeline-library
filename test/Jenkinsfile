@@ -1,0 +1,14 @@
+node {
+
+  //def secret = openshift.selector( "secret/github" ).object()
+
+  sh "oc get secret/openstack-auth -o json > .osp-auth"
+  def secret = new JsonSlurper().parse('.osp-auth')
+
+  echo "s: $secret"
+
+  String username = new String(secret.data.username.decodeBase64())
+
+  echo "u: $username"
+
+}
